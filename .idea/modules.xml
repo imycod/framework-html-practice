@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../animation-effect/.idea/animation-effect.iml" filepath="$PROJECT_DIR$/../animation-effect/.idea/animation-effect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../data-format/.idea/data-format.iml" filepath="$PROJECT_DIR$/../data-format/.idea/data-format.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/framework.iml" filepath="$PROJECT_DIR$/.idea/framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../goktech/gok-ui-transform/.idea/gok-ui-transform.iml" filepath="$PROJECT_DIR$/../goktech/gok-ui-transform/.idea/gok-ui-transform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../higher-js/.idea/higher-js.iml" filepath="$PROJECT_DIR$/../higher-js/.idea/higher-js.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../source/.idea/source.iml" filepath="$PROJECT_DIR$/../source/.idea/source.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../studio/thinkmap-word/think-map-words-backend/.idea/think-map-words-backend.iml" filepath="$PROJECT_DIR$/../../studio/thinkmap-word/think-map-words-backend/.idea/think-map-words-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../studio/thinkmap-word/think-map-words-frontend/.idea/think-map-words-frontend.iml" filepath="$PROJECT_DIR$/../../studio/thinkmap-word/think-map-words-frontend/.idea/think-map-words-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../thinking-training/.idea/thinking-training.iml" filepath="$PROJECT_DIR$/../thinking-training/.idea/thinking-training.iml" />
+    </modules>
+  </component>
+</project>

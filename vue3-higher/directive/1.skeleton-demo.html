@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #root {
+            width: 100%;
+        }
+
+        .msg {
+            width: 500px;
+            height: 500px;
+            border: 1px solid red;
+        }
+
+        h2 {
+            width: 100%;
+            height: 100px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        {{loading}}
+        <div class="msg" v-skeleton="loading">
+            <ul>
+                <li v-for="i in 10">
+                    <h2 v-skeleton-item>{{i}}</h2>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.45/vue.global.prod.min.js"></script>
+    <script>
+        const { reactive, watchEffect, h, render } = Vue
+        const state = reactive({
+            // 加载状态
+            loading: false,
+            // 使用了 v-skeleton-item 指令的节点保存在这里
+            list: []
+        })
+
+        watchEffect(() => {
+            console.log('state.loading----',state.loading);
+
+            // 创建 vnode
+            const children = state.list.map((el) =>
+                h('div', {
+                    class: 'skeleton',
+                    style: {
+                        position: 'absolute',
+                        top: el.getBoundingClientRect().top + 'px',
+                        left: el.getBoundingClientRect().left + 'px',
+                        width: el.getBoundingClientRect().width + 'px',
+                        height: el.getBoundingClientRect().height + 'px',
+                        background: '#e5e5e5',
+                        borderRadius: getComputedStyle(el).borderRadius,
+                    },
+                })
+            );
+
+            // 创建 div 容器
+            console.log('children--', children);
+
+            const container = h('div', children)
+            console.log('container--', container);
+            // 将 div容器 渲染到 body 中
+            render(state.loading ? container : null, document.body)
+        })
+
+        const Skeleton = {
+            mounted(el, binding) {
+                console.log(binding.value);
+                state.loading = binding.value
+            },
+            updated(el, binding) {
+                state.loading = binding.value
+            },
+            unmounted(el) {
+                state.loading = false
+            }
+        }
+
+        const SkeletonItem = {
+            mounted(el, binding) {
+                // 保存 el
+                state.list.push(el)
+            },
+            unmounted(el) {
+                // 删除 el
+                const i = state.list.indexOf(el)
+                if (i == -1) return
+                state.list.splice(i, 1)
+            }
+        }
+
+        // 注册这2个指令
+        // export default {
+        //     install: app => {
+        //         app.directive('skeleton', Skeleton)
+        //         app.directive('skeleton-item', SkeletonItem)
+        //     }
+        // }
+        const skeletonDirective = {
+            install: app => {
+                app.directive('skeleton', Skeleton)
+                app.directive('skeleton-item', SkeletonItem)
+            }
+        }
+
+        // export { Skeleton, SkeletonItem }
+
+        const { createApp, ref } = Vue
+
+        const app = createApp({
+            setup() {
+                const loading = ref(true)
+                setTimeout(() => {
+                    loading.value = false
+                }, 1000)
+                return {
+                    loading
+                }
+            }
+        })
+        app.use(skeletonDirective)
+        app.mount('#root')
+    </script>
+</body>
+
+</html>
