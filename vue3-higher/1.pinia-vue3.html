@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root">{{msg}}</div>
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.45/vue.global.prod.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-demi@0.13.11/lib/index.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pinia@2.0.29/dist/pinia.iife.min.js"></script>
+<script>
+  const {
+    createApp,
+    ref
+  } = Vue
+  console.log(window)
+  // const { createPinia } = pinia
+  const app = createApp({
+    setup () {
+
+      return {
+        msg: '111'
+      }
+    }
+  })
+  // const pinias = createPinia()
+  // app.use(pinias)
+  app.mount('#root')
+</script>
+</body>
+</html>

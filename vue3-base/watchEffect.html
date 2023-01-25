@@ -1,0 +1,87 @@
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.45/vue.global.prod.min.js"></script>
+
+<div id="root">
+
+</div>
+
+<script>
+  const {
+    createApp,
+    ref,
+    watchEffect,
+  } = Vue
+
+  function useFetch (getUrl) {
+    const data = ref(null)
+    const error = ref(null)
+    const isPending = ref(true)
+
+    watchEffect(() => {
+      data.value = null
+      error.value = null
+      isPending.value = true
+      fetch(getUrl())
+        .then(res => res.json())
+        .then(_data => {
+          setTimeout(() => {
+            data.value = _data
+            isPending.value = false
+          }, 1000)
+        })
+        .catch(err => {
+          error.value = err
+          isPending.value = false
+        })
+      // .finally(() => {
+      //   isPending.value = false
+      // })
+    })
+
+    return {
+      data,
+      error,
+      isPending,
+    }
+  }
+
+  function usePost (getId) {
+    return useFetch(()=>`https://jsonplaceholder.typicode.com/posts/${getId()}`)
+  }
+
+  const Post = {
+    template: `
+      <div v-if="isPending">loading...</div>
+      <div v-else-if="data">{{ data }}</div>
+      <div v-else-if="error">{{ error }}</div>
+    `,
+    props: ['id'],
+    setup (props) {
+      const {
+        data,
+        error,
+        isPending
+      } = usePost(()=>props.id)
+      return {
+        data,
+        error,
+        isPending
+      }
+    }
+  }
+  const App = {
+    components: {
+      Post,
+    },
+    data () {
+      return {
+        id: 1
+      }
+    },
+    template: `
+      <button @click="id++">id++</button>
+      <Post :id="id"/>
+    `,
+  }
+  createApp(App).mount('#root')
+</script>
+

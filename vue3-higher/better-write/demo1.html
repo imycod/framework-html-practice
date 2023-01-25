@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .bd {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <containerexample></containerexample>
+</div>
+<script src='https://cdn.bootcss.com/vue/2.5.16/vue.min.js'></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue@3.2.43/dist/vue.global.prod.js"></script>-->
+<script src="./vue-composition-api.prod.js"></script>
+<script>
+
+  Vue.use(VueCompositionAPI)
+
+  const {
+    ref,
+  } = VueCompositionAPI
+
+  // 逻辑
+  function useCounter () {
+    const count = ref(0)
+    const domRef = ref(null)
+
+    function inc () {
+      count.value += 1
+    }
+
+    function des () {
+      count.value -= 1
+    }
+
+    return {
+      count,
+      inc,
+      des,
+      domRef,
+    }
+  }
+
+  // 操作加
+  const exampleA = {
+    template: `
+      <div>
+      <div>{{ count }}</div>
+      <button @click="inc">加</button>
+      <button @click="des">减</button>
+      </div>
+    `,
+    setup () {
+      const {
+        inc,
+        des,
+        count,
+      } = useCounter()
+      return {
+        inc,
+        des,
+        count
+      }
+    }
+  }
+
+  // 可以使用的
+  const exampleC = {
+    template: `
+      <div>
+      <div>{{ count }}</div>
+      <button @click="inc">加</button>
+      <button @click="des">减</button>
+      </div>
+    `,
+    setup () {
+      const {
+        count,
+        inc,
+        des
+      } = useCounter()
+      return {
+        count,
+        inc,
+        des
+      }
+    }
+  }
+
+  const containerexample = {
+    template: `
+      <div>
+      <h1>containerexample</h1>
+      <div>
+        <example-c class="bd" ref="domRef"></example-c>
+        <example-a class="bd" ref="exampleARef"></example-a>
+      </div>
+
+      <button @click="handleDomRef">handleDomRef</button>
+      </div>
+    `,
+    setup () {
+      const { domRef } = useCounter()
+      function handleDomRef () {
+        console.log(domRef.value);
+      }
+      return {
+        domRef,
+        handleDomRef
+      }
+    },
+    components: {
+      exampleC,
+      exampleA,
+    }
+  }
+
+  const vm = new Vue({
+    el: '#root',
+    components: {
+      containerexample,
+    }
+  })
+</script>
+</body>
+</html>
