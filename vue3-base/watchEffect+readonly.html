@@ -1,0 +1,34 @@
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.45/vue.global.prod.min.js"></script>
+
+<div id="root">
+    <button @click="addCount">count++</button>
+    <div>original: {{original}}</div>
+    <div>copy: {{copy}}</div>
+</div>
+
+<script>
+  const {
+    createApp,
+    reactive,
+    readonly,
+    watchEffect,
+  } = Vue
+
+  const App = {
+    setup () {
+      const original = reactive({ count: 0 })
+      const copy = readonly(original)
+      watchEffect(() => {
+        console.log('copy',copy.count)
+      })
+
+      return {
+        addCount: () => original.count++,
+        original,
+        copy,
+      }
+    }
+  }
+  createApp(App).mount('#root')
+</script>
+
